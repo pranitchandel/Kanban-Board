@@ -14,7 +14,11 @@ const Board = () => {
   const [modalShow, setModalShow] = useState(false);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
+  const [isNameEmpty, setIsNameEmpty] = useState(true);
   const handleSubmit = () => {
+    if (name === "") {
+      setIsNameEmpty(true);
+    }
     setModalShow(!modalShow);
     setTaskArray([...taskArray, { name, desc, stage: 0 }]);
     setName("");
@@ -57,51 +61,70 @@ const Board = () => {
   Modal.setAppElement(document.getElementById("test"));
   return (
     <div id="test">
-      <h2>this is Kanban board</h2>
+      <h2>Kanban board</h2>
       <div>
-        <button onClick={() => setModalShow(!modalShow)}>Add new task</button>
+        <button
+          className="newTaskButton"
+          onClick={() => setModalShow(!modalShow)}
+        >
+          Add new task
+        </button>
         <Modal
           isOpen={modalShow}
           style={customStyles}
-          contentLabel="New Task"
           onRequestClose={closeModal}
         >
+          <h3>Add a new task</h3>
           <form name="myForm">
-            <div>
-              <div className="modalLabel">
-                <label>Project</label>
+            <div className="modalContents">
+              <div>
+                <div className="modalLabel">
+                  <label>
+                    <h5>Project</h5>
+                  </label>
+                </div>
+                <div className="modalInput">
+                  <p>
+                    {" "}
+                    <input
+                      type="text"
+                      placeholder="Project"
+                      autoFocus="autofocus"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </p>
+                </div>
               </div>
-              <div className="modalInput">
-                <p>
-                  {" "}
+              <div>
+                <div className="modalLabel">
+                  <label>
+                    <h5>Description</h5>
+                  </label>
+                </div>
+                <div className="modalInput">
                   <input
                     type="text"
-                    placeholder="project"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Description"
+                    value={desc}
+                    onChange={(e) => setDesc(e.target.value)}
                   />
-                  <span className="error" id="errorname"></span>
-                </p>
+                </div>
               </div>
             </div>
             <div>
-              <div className="modalLabel">
-                <label>Description</label>
-              </div>
-              <div className="modalInput">
-                <input
-                  type="text"
-                  placeholder="description"
-                  value={desc}
-                  onChange={(e) => setDesc(e.target.value)}
-                />
-              </div>
+              <button
+                type="button"
+                value="Add"
+                className="btn btn-primary btn-block modalAddButton"
+                onClick={handleSubmit}
+              >
+                Add
+              </button>
             </div>
-            <input type="submit" value="Add" onClick={handleSubmit} />
           </form>
         </Modal>
-        <div>
-          <h3>Stages of project</h3>
+        <div className="board">
           <div className="stages">
             {stages.map((stage, key) => (
               <div className="stagesOfProjects" key={key}>
@@ -146,9 +169,8 @@ const Board = () => {
                   </button>
                 </div>
                 <div className="taskName">
-                  <div className="taskNameContent">name : {task.name}</div>
-                  <div className="taskDescContent">desc : {task.desc}</div>
-                  <div>stage : {task.stage}</div>
+                  <div className="taskNameContent">{task.name}</div>
+                  <div className="taskDescContent">{task.desc}</div>
                 </div>
               </div>
             ))}
