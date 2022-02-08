@@ -16,11 +16,11 @@ const TaskSchema = new Schema({
     type: String,
   },
   creationDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   dueDate: {
-    type: Date,
+    type: String,
   },
 });
 
