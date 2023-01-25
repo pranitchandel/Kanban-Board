@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 
 //DB config
 const db = require("./config/keys").mongoURI;
+// const db = process.env.mongoURI;
 
 //connect to db
 mongoose
@@ -33,6 +34,6 @@ app.get("/", (req, res) => res.send("Hello"));
 app.use(cors());
 app.use("/api/tasks", tasks);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
